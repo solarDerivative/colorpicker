@@ -30,5 +30,15 @@ for(var i=0; i<data.length; i+=4) {
 	var alpha = data[i+3];
 	var temp = 'rgba(' + red + ',' + green + ',' + blue + ',' + (alpha / 255) + ')';
 
-	for(var j=0; j<storedVals.length
+	if(storedVals[0]){
+		for(var j = 0; j<storedVals.length; j++){
+???????????????
+			
 }
+
+
+scrap that for now
+easier way to do it is
+
+
+
