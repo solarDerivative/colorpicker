@@ -1,0 +1,34 @@
+iterate through entire canvas by creating an imagedata object
+
+var imgData = context.getImageData(0,0,canvas.width,canvas.height);
+var data = imgData.data;
+
+loop through the array of pixels
+	first pixel occupies array elements #0-3 (red 0, green 1, blue 2, alpha 3)
+	second pixel occupies array elements #4-7 (red 4, green 5, blue 6, alpha 7)
+
+
+for(var i=0; i<data.length; i+=4) {
+	var red = data[i];
+	var green = data[i+1];
+	var blue = data[i+2];
+	var alpha = data[i+3];
+}
+
+set the combo to temp
+
+var temp = 'rgba(' + red + ',' + green + ',' + blue + ',' + (alpha / 255) + ')';
+
+before this we need an array that stores temp if it's new
+
+$scope.storedVals = [];
+
+for(var i=0; i<data.length; i+=4) {
+	var red = data[i];
+	var green = data[i+1];
+	var blue = data[i+2];
+	var alpha = data[i+3];
+	var temp = 'rgba(' + red + ',' + green + ',' + blue + ',' + (alpha / 255) + ')';
+
+	for(var j=0; j<storedVals.length
+}
