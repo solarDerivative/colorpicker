@@ -1,0 +1,10 @@
+.colorpicker{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+#square{
+	height:250px;
+	width:250px;
+}
