@@ -5,13 +5,17 @@ var colorSelected = document.getElementById('color2');
 var colorDefined = document.getElementById('color3');
 var img = new Image();
 img.src = 'testimage.png';
+img.crossOrigin = "Anonymous";
 
 var colorA;
-var colorB;
+var colorB = [];
+var colorC = [];
+
+var allRGB = [];
 
 img.onload = function() {
-  ctx.drawImage(img, 0, 0);
-  img.style.display = 'none';
+	ctx.drawImage(img, 0, 0);
+	img.style.display = 'none';
 };
 
 
@@ -31,10 +35,13 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 
 	$scope.submitVals = function(r, g, b, a) {
 		var rgba = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
-
+		var data = [r, g, b, a];
 		colorDefined.style.background = rgba;
 		colorDefined.textContent = rgba;
-		colorB = rgba;
+		
+		for(i = 0; i < data.length; i++){
+			colorB[i] = parseInt(data[i]);
+		}
 	};
 
 	$scope.colorClick = function($event) {
@@ -42,18 +49,19 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		var y = event.layerY;
 		var pixel = ctx.getImageData(x, y, 1, 1);
 		var data = pixel.data;
-		var rgba = 'rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + (data[3] / 255) + ')';
+		var rgba = 'rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')';
 
 		colorSelected.style.background = rgba;
 		colorSelected.textContent = rgba;
-		colorA = rgba;
-	}
+		colorA = data;
+	};
+	
 	$scope.colorPick = function($event) {
 		var x = event.layerX;
 		var y = event.layerY;
 		var pixel = ctx.getImageData(x, y, 1, 1);
 		var data = pixel.data;
-		var rgba = 'rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + (data[3] / 255) + ')';
+		var rgba = 'rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')';
 
 		colorHover.style.background = rgba;
 		colorHover.textContent = rgba;
@@ -64,12 +72,8 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		var pixels = canvasData.data;
 		before = colorA;
 		after = colorB;
-		console.log(colorA);
-		console.log(colorB);
-		console.log(canvasData);
-		console.log(pixels);
 
-		for (var i = 0; i < pixels.length; i += 5){
+		for (var i = 0; i < pixels.length; i += 4){
 			if(pixels[i] === before[0] && pixels[i+1] === before[1] && pixels[i+2] === before[2] && pixels[i+3] === before[3]){
 				console.log("HEY SOMETHING SHOULD HAPPEN HERE??");
 				pixels[i] = after[0];
@@ -80,21 +84,5 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 				ctx.putImageData(canvasData, 0, 0);
 			}
 		}
-
-		console.log(colorA);
-		console.log(colorB);
-		console.log(canvasData);
-		console.log(pixels);
-		
-	}
-
-	/*$scope.getImageData = function(event) {
-		var x = event.pageX;
-		var y = event.pageY;
-		var offsetX = event.offsetX;
-		var offsetY = event.offsetY;
-		var endX = x - offsetX;
-		var endY = y - offsetY;
-		console.log(event, x, y, offsetX, offsetY, endX, endY);
-	};*/
+	};
 }]);

@@ -4,6 +4,12 @@
 	justify-content: space-around;
 }
 
+.colorBox{
+	border: 1px solid #000;
+	height:50px;
+	padding:10px;
+}
+
 #square{
 	height:250px;
 	width:250px;

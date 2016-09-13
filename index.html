@@ -13,7 +13,7 @@
 		</div>
 
 		<div class="colorpicker" ng-controller="colorCtrl">
-			<div class="flexitem"><h3>Values</h3>
+			<div><h3>Values</h3>
 				<strong>Red Value:</strong> <input ng-model="inner.red">
 				<p>&nbsp;{{inner.red}}</p>
 				<strong>Green Value:</strong> <input ng-model="inner.green">
@@ -22,7 +22,7 @@
 				<p>&nbsp;{{inner.blue}}</p>
 			</div>
 			<br>
-			<div class="flexitem"><h3>Outer Values</h3>
+			<div><h3>Outer Values</h3>
 				<strong>Red Value:</strong> <input ng-model="outer.red">
 				<p>&nbsp;{{outer.red}}</p>
 				<strong>Green Value:</strong> <input ng-model="outer.green">
@@ -31,22 +31,27 @@
 				<p>&nbsp;{{outer.blue}}</p>
 			</div>
 			<br>
-			<div class="flexitem" id="square" style="background:rgb({{inner.red}},{{inner.green}},{{inner.blue}}); border: 10px solid rgb({{outer.red}},{{outer.green}},{{outer.blue}});"></div>
+			<div id="square" style="background:rgb({{inner.red}},{{inner.green}},{{inner.blue}}); border: 10px solid rgb({{outer.red}},{{outer.green}},{{outer.blue}});"></div>
 
 		</div>
 		<p>
 		<hr>
 		<p>
 		<div ng-controller="canvCtrl">
-
-			<canvas id="canvas" ng-click="colorClick()" ng-mousemove="colorPick()" width="350" height="350" style="border:1px solid #000000;"></canvas>
-			<p>
-			<div id="color" style="border: 1px solid #000; width:200;height:50px"></div>
-			&nbsp;
-			<div id="color2" style="border: 1px solid #000; width:200;height:50px"></div>
-			<br>
-			<p>
-			<div id="color3" style="border: 1px solid #000; width:200;height:50px"></div>
+			<div class="colorpicker">
+			<div>
+				<strong>Active Color</strong>
+				<div id="color" class="colorBox"></div>
+			</div><div>
+				<strong>Selected Color</strong>
+				<div id="color2" class="colorBox"></div>
+			</div><div>
+				<strong>User-Defined Color</strong>
+				<div id="color3" class="colorBox"></div>
+			</div>
+				<br>
+				<canvas id="canvas" ng-click="colorClick()" ng-mousemove="colorPick()" width="350" height="350" style="border:1px solid #000000;"></canvas>
+			</div>
 
 			<div><h3>Set a Color</h3>
 				<strong>Red Value:</strong> <input ng-model="colorVals.r">
@@ -56,7 +61,7 @@
 				<strong>Blue Value:</strong> <input ng-model="colorVals.b">
 				<p>&nbsp;{{colorVals.b}}</p>
 
-				<input type="submit" ng-click="submitVals(colorVals.r, colorVals.g, colorVals.b, 1)" value="Push values?">
+				<input type="submit" ng-click="submitVals(colorVals.r, colorVals.g, colorVals.b, 255)" value="Push values?">
 				&nbsp;
 				<button ng-click="replaceColor(colorA, colorB)">Replace Color</button>
 			</div>
@@ -65,7 +70,8 @@
 		<p>
 		<!-- <button ng-click="pushVals()">Push Values</button>&nbsp; -->
 		<button ng-click="drawTest()">Draw Test</button>&nbsp;
-		<button ng-click="clear()">Clear</button>
+		<button ng-click="clear()">Clear</button>&nbsp;
+		<button ng-click="allColors()">Find All Colors</button>
 
 		</div>
 
