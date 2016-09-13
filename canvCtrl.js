@@ -4,14 +4,15 @@ var colorHover = document.getElementById('color');
 var colorSelected = document.getElementById('color2');
 var colorDefined = document.getElementById('color3');
 var img = new Image();
+var img2 = new Image();
 img.src = 'testimage.png';
+img2.src = 'testimage2.png';
+/*
 img.crossOrigin = "Anonymous";
-
+img2.crossOrigin = "Anonymous";
+*/
 var colorA;
 var colorB = [];
-var colorC = [];
-
-var allRGB = [];
 
 img.onload = function() {
 	ctx.drawImage(img, 0, 0);
@@ -19,12 +20,19 @@ img.onload = function() {
 };
 
 
+
+
 app.controller('canvCtrl', ['$scope', function($scope) {
-	$scope.clear = function() {
-		ctx.clearRect(0,0,350,350);
+
+	$scope.myImgs = [img, img2];
+	$scope.allRGB = [0, 0, 0, 0];
+
+	$scope.clear = function($scope) {
+		ctx.clearRect(0,0,400,400);
 	};
-	$scope.drawTest = function() {
-		ctx.drawImage(img,0,0);
+	$scope.drawTest = function(e) {
+		$scope.clear();
+		ctx.drawImage($scope.myImgs[e],0,0);
 	};
 
 	$scope.colorSelected = 'rgba(0,0,0,1)';
@@ -68,13 +76,13 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 	};
 
 	$scope.replaceColor = function(before, after){
-		var canvasData = ctx.getImageData(0,0,350,350);
+		var canvasData = ctx.getImageData(0,0,400,400);
 		var pixels = canvasData.data;
 		before = colorA;
 		after = colorB;
 
 		for (var i = 0; i < pixels.length; i += 4){
-			if(pixels[i] === before[0] && pixels[i+1] === before[1] && pixels[i+2] === before[2] && pixels[i+3] === before[3]){
+			if(pixels[i] == before[0] && pixels[i+1] == before[1] && pixels[i+2] == before[2] && pixels[i+3] == before[3]){
 				console.log("HEY SOMETHING SHOULD HAPPEN HERE??");
 				pixels[i] = after[0];
 				pixels[i+1] = after[1];
@@ -85,4 +93,33 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 			}
 		}
 	};
+
+	$scope.pushUnique = function(item){
+		var j = 0;
+		while(j < $scope.allRGB.length-3) {
+			if(item[0] == $scope.allRGB[j] && item[1] == $scope.allRGB[j+1] && item[2] == $scope.allRGB[j+2] && item[3] == $scope.allRGB[j+3]){
+				if(j < $scope.allRGB.length-3){
+					j += 4;
+				} else {
+					return false;
+				}
+			} else {
+				console.log("How did I get here");
+				$scope.allRGB.push(item[0], item[1], item[2], item[3]);
+			}
+		}
+	};
+
+	$scope.allColors = function(){
+		var canvasData = ctx.getImageData(0,0,400,400);
+		var pixels = canvasData.data;
+		console.log("I am running?");
+
+		for (var i = 0; i < pixels.length-3; i += 4){
+			if(pixels[i] != pixels[i-4] || pixels[i+1] != pixels[i-3] || pixels[i+2] != pixels[i-2] || pixels[i+3] != pixels[i-1]){
+				$scope.pushUnique([pixels[i], pixels[i+1], pixels[i+2], pixels[i+3]]);
+			}
+		}
+	};
+
 }]);

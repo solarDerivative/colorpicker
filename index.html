@@ -50,7 +50,7 @@
 				<div id="color3" class="colorBox"></div>
 			</div>
 				<br>
-				<canvas id="canvas" ng-click="colorClick()" ng-mousemove="colorPick()" width="350" height="350" style="border:1px solid #000000;"></canvas>
+				<canvas id="canvas" ng-click="colorClick()" ng-mousemove="colorPick()" width="400" height="400" style="border:1px solid #000000;"></canvas>
 			</div>
 
 			<div><h3>Set a Color</h3>
@@ -61,15 +61,13 @@
 				<strong>Blue Value:</strong> <input ng-model="colorVals.b">
 				<p>&nbsp;{{colorVals.b}}</p>
 
-				<input type="submit" ng-click="submitVals(colorVals.r, colorVals.g, colorVals.b, 255)" value="Push values?">
+				<input type="submit" ng-click="submitVals(colorVals.r, colorVals.g, colorVals.b, 255)" value="Push RBG Values">
 				&nbsp;
-				<button ng-click="replaceColor(colorA, colorB)">Replace Color</button>
+				<button ng-click="replaceColor(colorA, colorB)">Replace Selected with User-Defined</button>
 			</div>
-		
-
-		<p>
 		<!-- <button ng-click="pushVals()">Push Values</button>&nbsp; -->
-		<button ng-click="drawTest()">Draw Test</button>&nbsp;
+		<button ng-click="drawTest(0)">Draw Link</button>&nbsp;
+		<button ng-click="drawTest(1)">Draw Zetterburn</button>&nbsp;
 		<button ng-click="clear()">Clear</button>&nbsp;
 		<button ng-click="allColors()">Find All Colors</button>
 
