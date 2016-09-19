@@ -6,11 +6,24 @@
 
 .colorBox{
 	border: 1px solid #000;
+	font-family: "Consolas", monospace;
+	font-style: bold;
 	height:50px;
 	padding:10px;
+}
+
+table tr td {
+	font-family: "Consolas", monospace;
+	font-style: bold;
+	height:25px;
+	padding:2px;
 }
 
 #square{
 	height:250px;
 	width:250px;
+}
+
+#canvas{
+	float:right;
 }

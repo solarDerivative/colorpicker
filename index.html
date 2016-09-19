@@ -38,7 +38,6 @@
 		<hr>
 		<p>
 		<div ng-controller="canvCtrl">
-			<div class="colorpicker">
 			<div>
 				<strong>Active Color</strong>
 				<div id="color" class="colorBox"></div>
@@ -51,7 +50,6 @@
 			</div>
 				<br>
 				<canvas id="canvas" ng-click="colorClick()" ng-mousemove="colorPick()" width="400" height="400" style="border:1px solid #000000;"></canvas>
-			</div>
 
 			<div><h3>Set a Color</h3>
 				<strong>Red Value:</strong> <input ng-model="colorVals.r">
@@ -66,12 +64,24 @@
 				<button ng-click="replaceColor(colorA, colorB)">Replace Selected with User-Defined</button>
 			</div>
 		<!-- <button ng-click="pushVals()">Push Values</button>&nbsp; -->
-		<button ng-click="drawTest(0)">Draw Link</button>&nbsp;
-		<button ng-click="drawTest(1)">Draw Zetterburn</button>&nbsp;
+		<div ng-repeat="image in images">
+			<button ng-click="drawTest(image.id)">Draw {{image.name}} &nbsp;</button>
+		</div>
 		<button ng-click="clear()">Clear</button>&nbsp;
 		<button ng-click="allColors()">Find All Colors</button>
 
+		<div id="colorTotal">
+			<div id="colorMsg"></div>
+
+			<table>
+				<tr ng-repeat="color in allColorVals | orderBy : parseInt">
+					<td ng-click="setClicked(color[0], color[1], color[2], color[3])" class="allColorBox" style="background: rgba({{color[0]}}, {{color[1]}}, {{color[2]}}, {{color[3]}}); border:1px solid #000000; color: {{setTextColor(color[0], color[1], color[2])}};">rgba {{color}}</td>
+				</tr>
+			</table>
 		</div>
+
+
+		</div> <!-- end of canvas controller -->
 
 		<!-- Modules -->
 		<script src="scripts/main.js"></script>

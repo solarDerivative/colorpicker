@@ -3,9 +3,13 @@ var ctx = c.getContext("2d");
 var colorHover = document.getElementById('color');
 var colorSelected = document.getElementById('color2');
 var colorDefined = document.getElementById('color3');
-var img = new Image();
+var colorTotal = document.getElementById('colorTotal');
+var colorMsg = document.getElementById('colorMsg');
+var img0 = new Image();
+var img1 = new Image();
 var img2 = new Image();
-img.src = 'testimage.png';
+img0.src = 'testimage0.png';
+img1.src = 'testimage1.png';
 img2.src = 'testimage2.png';
 /*
 img.crossOrigin = "Anonymous";
@@ -14,25 +18,35 @@ img2.crossOrigin = "Anonymous";
 var colorA;
 var colorB = [];
 
-img.onload = function() {
-	ctx.drawImage(img, 0, 0);
-	img.style.display = 'none';
-};
-
-
-
-
 app.controller('canvCtrl', ['$scope', function($scope) {
 
-	$scope.myImgs = [img, img2];
-	$scope.allRGB = [0, 0, 0, 0];
+	$scope.images = [{
+		id: 0,
+		name: 'Link',
+		source: img0
+	}, {
+		id: 1,
+		name: 'Zetterburn',
+		source: img1
+	}, {
+		id: 2,
+		name: 'Orcane',
+		source: img2
+	}, ];
+
+	$scope.parseInt = parseInt;
 
 	$scope.clear = function($scope) {
 		ctx.clearRect(0,0,400,400);
+		colorTotal.style.display = "none";
 	};
+
 	$scope.drawTest = function(e) {
 		$scope.clear();
-		ctx.drawImage($scope.myImgs[e],0,0);
+		ctx.canvas.width = $scope.images[e].source.width;
+		ctx.canvas.height = $scope.images[e].source.height;
+		ctx.drawImage($scope.images[e].source,0,0);
+		$scope.allColors();
 	};
 
 	$scope.colorSelected = 'rgba(0,0,0,1)';
@@ -41,15 +55,28 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 
 	$scope.colorVals = {r: 100, g: 100, b: 100, a: 1};
 
+	$scope.allColorVals = [];
+
 	$scope.submitVals = function(r, g, b, a) {
 		var rgba = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
 		var data = [r, g, b, a];
 		colorDefined.style.background = rgba;
+		colorDefined.style.color = $scope.setTextColor(data[0], data[1], data[2]);
 		colorDefined.textContent = rgba;
 		
-		for(i = 0; i < data.length; i++){
+		for(var i = 0; i < data.length; i++){
 			colorB[i] = parseInt(data[i]);
 		}
+	};
+
+	$scope.setClicked = function(r, g, b, a) {
+		var rgba = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+		var data = [r, g, b, a];
+		colorSelected.style.background = rgba;
+		colorSelected.style.color = $scope.setTextColor(data[0], data[1], data[2]);
+		colorSelected.textContent = rgba;
+		
+		colorA = data;
 	};
 
 	$scope.colorClick = function($event) {
@@ -60,6 +87,7 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		var rgba = 'rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')';
 
 		colorSelected.style.background = rgba;
+		colorSelected.style.color = $scope.setTextColor(data[0], data[1], data[2]);
 		colorSelected.textContent = rgba;
 		colorA = data;
 	};
@@ -72,6 +100,7 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		var rgba = 'rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')';
 
 		colorHover.style.background = rgba;
+		colorHover.style.color = $scope.setTextColor(data[0], data[1], data[2]);
 		colorHover.textContent = rgba;
 	};
 
@@ -92,7 +121,69 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 				ctx.putImageData(canvasData, 0, 0);
 			}
 		}
+
+		$scope.allColors();
 	};
+
+	$scope.allColors = function(){
+		var canvasData = ctx.getImageData(0,0,400,400);
+		var pixels = canvasData.data;
+		var format;
+		var colorArray = [];
+		console.log("I am running?");
+
+		for (var i = 0; i < pixels.length; i += 4){
+			format = [pixels[i], pixels[i+1], pixels[i+2], pixels[i+3]];
+			colorArray = $scope.pushUnique(colorArray, format);
+		}
+		$scope.allColorVals = colorArray;
+		colorTotal.style.display = "block";
+		colorMsg.textContent = "There are a total of " + $scope.allColorVals.length + " colors in this sprite.";
+	};
+
+	$scope.pushUnique = function(clrArr, format){
+		//assume we should add the format
+		var shouldPush = true;
+		var badFormat = [0, 0, 0, 0];
+
+		//check the array of currently found colors
+		for(var j = 0; j < clrArr.length; j++) {
+			var currentPixel = clrArr[j];
+			//compare the current pixel's color values to our input colors
+			if (currentPixel[0] === format[0] &&
+				currentPixel[1] === format[1] &&
+				currentPixel[2] === format[2] &&
+				currentPixel[3] === format[3]) {
+				shouldPush = false;
+			}
+		}
+
+		if(format[3] === 0){
+			shouldPush = false;
+		}
+
+		//if we never found an instance of the pixel in our current array, add it
+		if(shouldPush){
+			clrArr.push(format);
+		}
+		//send back the array
+		return clrArr;
+	};
+
+	$scope.setTextColor = function(r, g, b){
+
+    	var o = Math.round(((parseInt(r) * 299) + (parseInt(g) * 587) + (parseInt(b) * 114)) / 1000);
+
+    	if(o > 75){
+    		return 'black';
+    	} else {
+    		return 'white';
+    	}
+	};
+
+	
+
+	/*
 
 	$scope.pushUnique = function(item){
 		var j = 0;
@@ -121,5 +212,6 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 			}
 		}
 	};
+	*/
 
 }]);
