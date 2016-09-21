@@ -70,14 +70,16 @@
 		<button ng-click="clear()">Clear</button>&nbsp;
 		<button ng-click="allColors()">Find All Colors</button>
 
-		<div id="colorTotal">
+		<div id="colorTotal" ng-controller="dragCtrl">
 			<div id="colorMsg"></div>
 
-			<table>
-				<tr ng-repeat="color in allColorVals | orderBy : parseInt">
-					<td ng-click="setClicked(color[0], color[1], color[2], color[3])" class="allColorBox" style="background: rgba({{color[0]}}, {{color[1]}}, {{color[2]}}, {{color[3]}}); border:1px solid #000000; color: {{setTextColor(color[0], color[1], color[2])}};">rgba {{color}}</td>
-				</tr>
-			</table>
+			<div class="notTable">
+				<span ng-repeat="color in allColorVals | orderBy : parseInt">
+					<div my-draggable></div>
+				</span>
+			</div>
+
+			<div my-droppable></div>
 		</div>
 
 
@@ -86,9 +88,13 @@
 		<!-- Modules -->
 		<script src="scripts/main.js"></script>
 
+		<!-- Directives -->
+		<script src="scripts/directives/draggable.js"></script>
+		<script src="scripts/directives/droppable.js"></script>
     	<!-- Controllers -->
     	<script src="scripts/controllers/FirstController.js"></script>
     	<script src="scripts/controllers/colorCtrl.js"></script>
     	<script src="scripts/controllers/canvCtrl.js"></script>
+    	<script src="scripts/controllers/dragCtrl.js"></script>
 	</body>
 </html>

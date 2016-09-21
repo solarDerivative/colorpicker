@@ -8,9 +8,13 @@ var colorMsg = document.getElementById('colorMsg');
 var img0 = new Image();
 var img1 = new Image();
 var img2 = new Image();
+var img3 = new Image();
+var img4 = new Image();
 img0.src = 'testimage0.png';
 img1.src = 'testimage1.png';
 img2.src = 'testimage2.png';
+img3.src = 'testimage3.png';
+img4.src = 'testimage4.png';
 /*
 img.crossOrigin = "Anonymous";
 img2.crossOrigin = "Anonymous";
@@ -32,7 +36,15 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		id: 2,
 		name: 'Orcane',
 		source: img2
-	}, ];
+	}, {
+		id: 3,
+		name: 'Kragg',
+		source: img3
+	}, {
+		id: 4,
+		name: 'Wrastor',
+		source: img4
+	}];
 
 	$scope.parseInt = parseInt;
 
