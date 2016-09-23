@@ -1,7 +1,9 @@
+var domElement = document.getElementById('colorTotal');
 app.directive('myDraggable', function() {
   return {
-    restrict: "A",
-    template: '<div id="allClr-{{$index}}" draggable="true" ondragstart="{{drag(event)}}" class="seriously" style="background: rgba({{color[0]}}, {{color[1]}}, {{color[2]}}, {{color[3]}}); color: {{setTextColor(color[0], color[1], color[2])}};">rgba {{color}}</div>',
+    restrict: 'E',
+    transclude: true,
+    templateUrl: 'templates/draggableTemp.html',
     link: function(scope, element, attr){
 
       /*
@@ -39,10 +41,10 @@ app.directive('myDraggable', function() {
       }
       */
 
-      element.addEventListener("dragstart", scope.handleDragStart, false);
-      element.addEventListener("dragenter", scope.handleDragEnter, false);
-      element.addEventListener("dragleave", scope.handleDragLeave, false);
-      element.addEventListener("dragend", scope.handleDragEnd, false);
+      element[0].addEventListener("dragstart", scope.handleDragStart, false);
+      /*element[0].addEventListener("dragenter", scope.handleDragEnter, false);
+      element[0].addEventListener("dragleave", scope.handleDragLeave, false);*/
+      element[0].addEventListener("dragend", scope.handleDragEnd, false);
       
 
     }

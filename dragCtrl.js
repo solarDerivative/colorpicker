@@ -1,53 +1,75 @@
 // http://www.w3schools.com/html/html5_draganddrop.asp
 // element.addEventListener is not a function lmao? probably shouldnt be using in angular directive
+
 app.controller('dragCtrl', ['$scope', function($scope) {
+
+	//placeholder/debug variable to hold a target class name
+	//$scope.DBclassName = "";
 
 	$scope.allowDrop = function(ev) {
 		ev.preventDefault();
 	};
 
 	$scope.drag = function(ev) {
-		ev.dataTransfer.setData("text", ev.target.id);
+		ev.dataTransfer.setData('Text', ev.target.id);
 	};
 
 	$scope.drop = function(ev) {
-		ev.preventDefault();
-		var data = ev.dataTransfer.getData("text");
-		ev.target.appendChild(document.getElementById(data));
+		if($scope.dropZoneIsValid(ev)){
+			console.log(ev.target.id);
+			ev.preventDefault();
+			var data = ev.dataTransfer.getData('Text');
+			ev.target.appendChild(document.getElementById(data));
+		}
 	};
 
-	$scope.handleDragStart = function(e) {
-    	this.style.opacity = '0.4';
+	$scope.handleDragStart = function(ev) {
+    	this.style.opacity = '0.8';
     //e.dataTransfer.setData('text', this.innerHTML);
-      e.dataTransfer.setData('text', this.id);
     };
 
-    $scope.handleDragEnd = function(e) {
+    $scope.handleDragEnd = function(ev) {
       this.style.opacity = '1';
     };
 
-    $scope.handleDragEnter = function(e) {
-      this.classList.add('over-drop-area');
+    /*
+    $scope.handleDragEnter = function(ev) {
+    	console.log("DragEnter: " + ev.target.id);
+    	if($scope.dropZoneIsValid(ev)){
+		    ev.target.style.borderStyle = "dotted";
+ 		}
     };
-    $scope.handleDragLeave = function(e) {
-      this.classList.remove('over-drop-area');
+    $scope.handleDragLeave = function(ev) {
+    	if($scope.dropZoneIsValid(ev)){
+    		ev.target.style.borderStyle = "solid";
+      	}
+    };
+    */
+
+    $scope.handleDrop = function(ev) {
+      if (ev.preventDefault) {
+        ev.preventDefault();
+      }
+      if (ev.stopPropogation) {
+        ev.stopPropogation();
+      }
     };
 
-    $scope.handleDrop = function(e) {
-      if (e.preventDefault) {
-        e.preventDefault();
+    $scope.handleDragOver = function(ev) {
+    	console.log("DragOver " + ev.target.id);
+      if (ev.preventDefault) {
+        ev.preventDefault();
       }
-      if (e.stopPropogation) {
-        e.stopPropogation();
-      }
-    };
-
-    $scope.handleDragOver = function(e) {
-      if (e.preventDefault) {
-        e.preventDefault();
-      }
-      e.dataTransfer.dropEffect = 'copy';
+      ev.dataTransfer.dropEffect = 'move';
       return false;
+    };
+
+    $scope.dropZoneIsValid = function(ev) {
+    	if(ev.target.id == "dropTest"){
+			return true;
+		} else {
+			return false;
+		}
     };
 
 }]);
