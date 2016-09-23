@@ -1,22 +1,45 @@
-.colorpicker{
+/*.colorpicker{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-}
+}*/
 
 .colorBox{
 	border: 1px solid #000;
 	font-family: "Consolas", monospace;
 	font-style: bold;
 	height:50px;
-	padding:10px;
 }
 
-table tr td {
-	font-family: "Consolas", monospace;
-	font-style: bold;
-	height:25px;
-	padding:2px;
+.colorMenu{
+	float:left;
+	width:90%;
+}
+
+.wrapper{
+	margin-right:400px;
+}
+
+.seriously{
+	border: 1px solid black;
+	cursor:pointer;
+    font-family: "Consolas", monospace;
+    height:25px;
+    width:200px;
+    text-align:center;
+    padding:2px;
+    margin:5px;
+    display: inline-block;
+}
+
+.why{
+	clear: both;
+}
+
+#dropTest{
+	height:300px;
+	width:300px;
+	border: 5px solid black;
 }
 
 #square{
@@ -26,4 +49,5 @@ table tr td {
 
 #canvas{
 	float:right;
+	margin-right: -400px;
 }
