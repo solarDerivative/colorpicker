@@ -1,0 +1,16 @@
+rivals sat/value is 0 - 255
+these are saved as values between 0 and 1
+"0 is saved as 1, 255 is saved as 0"
+	Since 0.00000 in the .ini is 255, the answer to that would be 100 - ((int)(value*100))
+everything in between 1 and 254 is saved as 1 - (ingame value)/255, up to three significant figures
+so to get REAL sat/val values take that number and * 100
+
+so then hue, which is in-game as 255 but real-life as 360
+real life val = (value)/255*360
+
+user profiles and colors in a new .ini
+appdata/local/rivals of aether
+profiles.ini or userprofiles.ini
+
+"255,0,0 in RGB would be FC00 in RGBY"
+((R value (0 to 255)/8) * 0x8000) + ((G value (0 to 255)/8) * 0x0400) + ((G value (0 to 255)/8) * 0x0020) = 16 bit RGBY value

@@ -1,5 +1,6 @@
 var c = document.getElementById("canvas");
 var ctx = c.getContext("2d");
+
 var colorHover = document.getElementById('color');
 var colorSelected = document.getElementById('color2');
 var colorDefined = document.getElementById('color3');
@@ -8,9 +9,21 @@ var colorMsg = document.getElementById('colorMsg');
 var img0 = new Image();
 var img1 = new Image();
 var img2 = new Image();
+var img3 = new Image();
+var img4 = new Image();
+var img5 = new Image();
+var img6 = new Image();
+var img7 = new Image();
+var img8 = new Image();
 img0.src = 'testimage0.png';
 img1.src = 'testimage1.png';
 img2.src = 'testimage2.png';
+img3.src = 'testimage3.png';
+img4.src = 'testimage4.png';
+img5.src = 'testimage5.png';
+img6.src = 'testimage6.png';
+img7.src = 'testimage7.png';
+img8.src = 'testimage8.png';
 /*
 img.crossOrigin = "Anonymous";
 img2.crossOrigin = "Anonymous";
@@ -19,6 +32,208 @@ var colorA;
 var colorB = [];
 
 app.controller('canvCtrl', ['$scope', function($scope) {
+
+	/*
+
+	$scope.characters = [{
+		charId: 0,
+		charName: 'Link',
+		source: img0,
+		colors: [{
+			sectId:0, sectName: 'Hair', vals:[{
+				r: 122, g: 53, b: 0, a: 255
+			}],
+			sectId:1, sectName: 'Tunic', vals:[{
+				r: 122, g: 192, b: 0, a: 255
+			}],
+			sectId:2, sectName: 'Skin', valus:[{
+				r: 214, g: 133, b: 17, a: 255
+			}]
+		}]
+	}, {
+		charId: 1,
+		charName: 'Zetterburn',
+		source: img1,
+		colors: [{
+			sectId:0, sectName: 'Body', vals: [{
+	
+			}],
+			sectId:1, sectName: 'Hands', vals: [{
+	
+			}],
+			sectId:2, sectName: 'Fire1', vals: [{
+	
+			}],
+			sectId:3, sectName: 'Fire2', vals: [{
+	
+			}],
+			sectId:4, sectName: 'Fire3', vals: [{
+	
+			}],
+			sectId:5, sectName: 'Uneditables', vals: [{
+	
+			}]
+		}]
+	}, {
+		charId: 2,
+		charName: 'Orcane',
+		source: img2,
+		colors: [{
+			sectId:0, sectName: 'Body', vals: [{
+	
+			}],
+			sectId:1, sectName: 'Belly', vals: [{
+	
+			}],
+			sectId:2, sectName: 'Uneditables', vals: [{
+	
+			}]
+		}]
+	}, {
+		charId: 3,
+		charName: 'Kragg',
+		source: img3,
+		colors: [{
+			sectId:0, sectName: 'Rock', vals: [{
+	
+			}],
+			sectId:1, sectName: 'Skin', vals: [{
+	
+			}],
+			sectId:2, sectName: 'Armor', vals: [{
+	
+			}],
+			sectId:3, sectName: 'Shading', vals: [{
+	
+			}],
+			sectId: 4, sectName: 'Uneditables', vals: [{
+	
+			}]
+		}]
+	}, {
+		charId: 4,
+		charName: 'Wrastor',
+		source: img4,
+		colors: [{
+			sectId: 0, sectName: 'Body', vals [{
+				
+			}],
+			sectId: 1, sectName: 'Hands', vals [{
+				
+			}],
+			sectId: 2, sectName: 'Scarf', vals [{
+				
+			}],
+			sectId: 3, sectName: 'Belly', vals [{
+				
+			}],
+			sectId: 4, sectName: 'Beak', vals [{
+				
+			}],
+			sectId: 5, sectName: 'Uneditables', vals [{
+	
+			}]
+		}]
+	}, {
+		charId: 5,
+		charName: 'Forsburn',
+		source: img5,
+		colors: [{
+			sectId: 0, sectName: 'Cloak 1', vals [{
+				
+			}],
+			sectId: 1, sectName: 'Body', vals [{
+				
+			}],
+			sectId: 2, sectName: 'Fire 1', vals [{
+				
+			}],
+			sectId: 3, sectName: 'Fire 2', vals [{
+				
+			}],
+			sectId: 4, sectName: 'Fire 3', vals [{
+				
+			}],
+			sectId: 5, sectName: 'Cloak 2', vals [{
+				
+			}],
+			sectId: 6, sectName: 'Skull', vals [{
+				
+			}],
+			sectId: 7, sectName: 'Uneditables', vals [{
+				
+			}]
+		}]
+		
+	}, {
+		charId: 6,
+		charName: 'Maypul',
+		source: img6,
+		colors: [{
+			sectId: 0, sectName: 'Body', vals [{
+				
+			}],
+			sectId: 1, sectName: 'Belly', vals [{
+				
+			}],
+			sectId: 2, sectName: 'Leaf', vals [{
+				
+			}],
+			sectId: 3, sectName: 'Marks', vals [{
+				
+			}],
+			sectId: 4, sectName: 'Vines', vals [{
+				
+			}],
+			sectId: 5, sectName: 'Uneditables', vals [{
+				
+			}]
+		}]
+	}, {
+		charId: 7
+		charName: 'Absa',
+		source: img7,
+		colors: [{
+			sectId: 0, sectName: 'Body', vals [{
+	
+			}],
+			sectId: 1, sectName: 'Hair', vals [{
+	
+			}],
+			sectId: 2, sectName: 'Lightning', vals [{
+	
+			}],
+			sectId: 3, sectName: 'Horns', vals [{
+	
+			}],
+			sectId: 4, sectName: 'Belly', vals [{
+	
+			}],
+			sectId: 5, sectName: 'Uneditables', vals [{
+	
+			}]
+		}]
+	}, {
+		charId: 8
+		charName: 'Etalus',
+		source: img8,
+		colors: [{
+			sectId: 0, sectName: 'Body', vals [{
+	
+			}],
+			sectId: 1, sectName: 'Ice', vals [{
+	
+			}],
+			sectId: 2, sectName: 'Shading', vals [{
+	
+			}],
+			sectId: 3, sectName: 'Uneditables', vals [{
+	
+			}],
+		}]
+	}]
+
+	*/
 
 	$scope.images = [{
 		id: 0,
@@ -32,7 +247,31 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		id: 2,
 		name: 'Orcane',
 		source: img2
-	}, ];
+	}, {
+		id: 3,
+		name: 'Kragg',
+		source: img3
+	}, {
+		id: 4,
+		name: 'Wrastor',
+		source: img4
+	}, {
+		id: 5,
+		name: 'Forsburn',
+		source: img5
+	}, {
+		id: 6,
+		name: 'Maypul',
+		source: img6
+	}, {
+		id: 7,
+		name: 'Absa',
+		source: img7
+	}, {
+		id: 8,
+		name: 'Etalus',
+		source: img8
+	}];
 
 	$scope.parseInt = parseInt;
 
@@ -53,21 +292,22 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 
 	$scope.colorDefined = 'rgba(0,0,0,1)';
 
-	$scope.colorVals = {r: 100, g: 100, b: 100, a: 1};
+	$scope.colorVals = {r: 100, g: 100, b: 100, a: 255};
 
 	$scope.allColorVals = [];
 
+	/*
 	$scope.submitVals = function(r, g, b, a) {
 		var rgba = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
 		var data = [r, g, b, a];
 		colorDefined.style.background = rgba;
 		colorDefined.style.color = $scope.setTextColor(data[0], data[1], data[2]);
-		colorDefined.textContent = rgba;
 		
 		for(var i = 0; i < data.length; i++){
 			colorB[i] = parseInt(data[i]);
 		}
 	};
+	*/
 
 	$scope.setClicked = function(r, g, b, a) {
 		var rgba = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
@@ -105,25 +345,24 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 	};
 
 	$scope.replaceColor = function(before, after){
-		var canvasData = ctx.getImageData(0,0,400,400);
-		var pixels = canvasData.data;
+		var cWidth = c.width;
+		var cHeight = c.height;
+		var canvasData = ctx.getImageData(0,0,cWidth,cHeight);
+		pixels = canvasData.data;
+		colorB = [$scope.colorVals.r, $scope.colorVals.g, $scope.colorVals.b, $scope.colorVals.a];
 		before = colorA;
 		after = colorB;
 
-		for (var i = 0; i < pixels.length; i += 4){
-			if(pixels[i] == before[0] && pixels[i+1] == before[1] && pixels[i+2] == before[2] && pixels[i+3] == before[3]){
-				console.log("HEY SOMETHING SHOULD HAPPEN HERE??");
-				pixels[i] = after[0];
-				pixels[i+1] = after[1];
-				pixels[i+2] = after[2];
-				pixels[i+3] = after[3];
-
-				ctx.putImageData(canvasData, 0, 0);
+		for(var i = 0, len = pixels.length; i < len; i += 4){
+			if(pixels[i] == before[0] && pixels[i+1] == before[1] && pixels[i+2] == before[2]){
+					pixels[i] = after[0];
+					pixels[i+1] = after[1];
+					pixels[i+2] = after[2];
+				}
 			}
-		}
-
-		$scope.allColors();
-	};
+			ctx.putImageData(canvasData, 0, 0);
+			$scope.allColors();
+		};
 
 	$scope.allColors = function(){
 		var canvasData = ctx.getImageData(0,0,400,400);
@@ -138,7 +377,7 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		}
 		$scope.allColorVals = colorArray;
 		colorTotal.style.display = "block";
-		colorMsg.textContent = "There are a total of " + $scope.allColorVals.length + " colors in this sprite.";
+		colorMsg.textContent = "There are a total of " + $scope.allColorVals.length + " colors in this image.";
 	};
 
 	$scope.pushUnique = function(clrArr, format){
