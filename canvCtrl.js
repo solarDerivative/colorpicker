@@ -6,6 +6,11 @@ var colorSelected = document.getElementById('color2');
 var colorDefined = document.getElementById('color3');
 var colorTotal = document.getElementById('colorTotal');
 var colorMsg = document.getElementById('colorMsg');
+
+rInput = document.getElementById("r");
+gInput = document.getElementById("g");
+bInput = document.getElementById("b");
+
 var img0 = new Image();
 var img1 = new Image();
 var img2 = new Image();
@@ -330,6 +335,10 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		colorSelected.style.color = $scope.setTextColor(data[0], data[1], data[2]);
 		colorSelected.textContent = rgba;
 		colorA = data;
+		$scope.colorVals.r = colorA[0];
+		$scope.colorVals.g = colorA[1];
+		$scope.colorVals.b = colorA[2];
+		$scope.colorVals.a = colorA[3];
 	};
 	
 	$scope.colorPick = function($event) {
@@ -353,6 +362,10 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		before = colorA;
 		after = colorB;
 
+		$scope.setGradient(rInput, ["rgb(" + 0 + "," + $scope.colorVals.g + "," + $scope.colorVals.b +")", "rgb(" + 255 + "," + $scope.colorVals.g + "," + $scope.colorVals.b +")"]);
+		$scope.setGradient(gInput, ["rgb(" + $scope.colorVals.r + "," + 0 + "," + $scope.colorVals.b +")", "rgb(" + $scope.colorVals.r + "," + 255 + "," + $scope.colorVals.b +")"]);
+		$scope.setGradient(bInput, ["rgb(" + $scope.colorVals.r + "," + $scope.colorVals.g + "," + 0 +")", "rgb(" + $scope.colorVals.r + "," + $scope.colorVals.g + "," + 255 +")"]);
+
 		for(var i = 0, len = pixels.length; i < len; i += 4){
 			if(pixels[i] == before[0] && pixels[i+1] == before[1] && pixels[i+2] == before[2]){
 					pixels[i] = after[0];
@@ -360,8 +373,17 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 					pixels[i+2] = after[2];
 				}
 			}
+
+			colorA = colorB;
+
+			var rgba = 'rgba(' + colorA[0] + ',' + colorA[1] + ',' + colorA[2] + ',' + colorA[3] + ')';
+			colorSelected.style.background = rgba;
+			colorSelected.style.color = $scope.setTextColor(colorA[0], colorA[1], colorA[2]);
+			colorSelected.textContent = rgba;
+
 			ctx.putImageData(canvasData, 0, 0);
 			$scope.allColors();
+			colorDefined.style.color = $scope.setTextColor(colorB[0], colorB[1], colorB[2]);
 		};
 
 	$scope.allColors = function(){
@@ -419,6 +441,18 @@ app.controller('canvCtrl', ['$scope', function($scope) {
     		return 'white';
     	}
 	};
+
+	$scope.setGradient = function(el, steps){
+
+		var gradientString = "linear-gradient(to right,";
+
+		var stepSize = 100 / (steps.length - 1);
+
+		for(var i = 0; i < steps.length; i++) {
+			gradientString += (i > 0 ? "," : "") + steps[i] + (i * stepSize) + "%";
+		}
+		el.style.backgroundImage = gradientString + ")";
+	}
 
 	
 

@@ -58,3 +58,49 @@ input{
 	float:right;
 	border:1px solid #eeeeee;
 }
+
+input[type=range] {
+	float: left;
+	width: 100%;
+	-webkit-appearance: none;
+	border-radius: 3px;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.3) inset, 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.colourSlider
+{
+  width: 400px;
+}
+
+.column {
+  display: inline-block;
+  width: 190px;
+  margin-right: 20px;
+  float: left;
+}
+
+.column:nth-child(2n) {
+  margin-right: 0;
+}
+
+.colourSlider input[type=range]
+{
+  float:left;
+  width:100%;
+  -webkit-appearance:none;
+  height:20px;
+}
+
+.colourSlider input[type="range"]::-moz-range-track
+{
+  border:inherit;
+  background:transparent;
+  color:transparent;
+}
+
+.colourSlider input[type="range"]::-ms-track
+{
+  border:inherit;
+  background:transparent;
+  color:transparent;
+}
