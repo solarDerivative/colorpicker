@@ -11,6 +11,10 @@ rInput = document.getElementById("r");
 gInput = document.getElementById("g");
 bInput = document.getElementById("b");
 
+hInput = document.getElementById("h");
+sInput = document.getElementById("s");
+vInput = document.getElementById("v");
+
 var img0 = new Image();
 var img1 = new Image();
 var img2 = new Image();
@@ -35,6 +39,11 @@ img2.crossOrigin = "Anonymous";
 */
 var colorA;
 var colorB = [];
+var colorC;
+
+function hsv(h, s, v) {
+	return "hsv(" + h + "," + s + "%," + v +"%)";
+}
 
 app.controller('canvCtrl', ['$scope', function($scope) {
 
@@ -297,9 +306,11 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 
 	$scope.colorDefined = 'rgba(0,0,0,1)';
 
-	$scope.colorVals = {r: 100, g: 100, b: 100, a: 255};
+	$scope.rgbVals = {r: 100, g: 100, b: 100, a: 255};
+	colorC = $scope.rgbToHsv($scope.rgbVals.r.value, $scope.rgbVals.g.value, $scope.rgbVals.b.value);
+	$scope.hsvVals = {h: colorC[0], s: colorC[1], v: colorC[2]};
 
-	$scope.allColorVals = [];
+	$scope.allrgbVals = [];
 
 	/*
 	$scope.submitVals = function(r, g, b, a) {
@@ -335,10 +346,10 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		colorSelected.style.color = $scope.setTextColor(data[0], data[1], data[2]);
 		colorSelected.textContent = rgba;
 		colorA = data;
-		$scope.colorVals.r = colorA[0];
-		$scope.colorVals.g = colorA[1];
-		$scope.colorVals.b = colorA[2];
-		$scope.colorVals.a = colorA[3];
+		$scope.rgbVals.r = colorA[0];
+		$scope.rgbVals.g = colorA[1];
+		$scope.rgbVals.b = colorA[2];
+		$scope.rgbVals.a = colorA[3];
 	};
 	
 	$scope.colorPick = function($event) {
@@ -358,13 +369,17 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		var cHeight = c.height;
 		var canvasData = ctx.getImageData(0,0,cWidth,cHeight);
 		pixels = canvasData.data;
-		colorB = [$scope.colorVals.r, $scope.colorVals.g, $scope.colorVals.b, $scope.colorVals.a];
+		colorB = [$scope.rgbVals.r, $scope.rgbVals.g, $scope.rgbVals.b, $scope.rgbVals.a];
 		before = colorA;
 		after = colorB;
 
-		$scope.setGradient(rInput, ["rgb(" + 0 + "," + $scope.colorVals.g + "," + $scope.colorVals.b +")", "rgb(" + 255 + "," + $scope.colorVals.g + "," + $scope.colorVals.b +")"]);
-		$scope.setGradient(gInput, ["rgb(" + $scope.colorVals.r + "," + 0 + "," + $scope.colorVals.b +")", "rgb(" + $scope.colorVals.r + "," + 255 + "," + $scope.colorVals.b +")"]);
-		$scope.setGradient(bInput, ["rgb(" + $scope.colorVals.r + "," + $scope.colorVals.g + "," + 0 +")", "rgb(" + $scope.colorVals.r + "," + $scope.colorVals.g + "," + 255 +")"]);
+		$scope.setGradient(rInput, ["rgb(" + 0 + "," + $scope.rgbVals.g + "," + $scope.rgbVals.b +")", "rgb(" + 255 + "," + $scope.rgbVals.g + "," + $scope.rgbVals.b +")"]);
+		$scope.setGradient(gInput, ["rgb(" + $scope.rgbVals.r + "," + 0 + "," + $scope.rgbVals.b +")", "rgb(" + $scope.rgbVals.r + "," + 255 + "," + $scope.rgbVals.b +")"]);
+		$scope.setGradient(bInput, ["rgb(" + $scope.rgbVals.r + "," + $scope.rgbVals.g + "," + 0 +")", "rgb(" + $scope.rgbVals.r + "," + $scope.rgbVals.g + "," + 255 +")"]);
+
+		$scope.setGradient(hInput, [hsv(0, sInput.value, vInput.value), hsv(60, sInput.value, vInput.value), hsv(120, sInput.value, vInput.value), hsv(180, sInput.value, vInput.value), hsv(300, sInput.value, vInput.value), hsv(360, sInput.value, vInput.value)]);
+		$scope.setGradient(sInput, [hsv(hInput.value, 0, vInput.value), hsv(hInput.value, 100, vInput.value)]);
+		$scope.setGradient(vInput, [hsv(hInput.value, sInput.value, 0), hsv(hInput.value, sInput.value, 50), hsv(hInput.value, sInput.value, 100)]);
 
 		for(var i = 0, len = pixels.length; i < len; i += 4){
 			if(pixels[i] == before[0] && pixels[i+1] == before[1] && pixels[i+2] == before[2]){
@@ -397,9 +412,9 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 			format = [pixels[i], pixels[i+1], pixels[i+2], pixels[i+3]];
 			colorArray = $scope.pushUnique(colorArray, format);
 		}
-		$scope.allColorVals = colorArray;
+		$scope.allrgbVals = colorArray;
 		colorTotal.style.display = "block";
-		colorMsg.textContent = "There are a total of " + $scope.allColorVals.length + " colors in this image.";
+		colorMsg.textContent = "There are a total of " + $scope.allrgbVals.length + " colors in this image.";
 	};
 
 	$scope.pushUnique = function(clrArr, format){
@@ -452,9 +467,97 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 			gradientString += (i > 0 ? "," : "") + steps[i] + (i * stepSize) + "%";
 		}
 		el.style.backgroundImage = gradientString + ")";
-	}
+	};
 
-	
+	$scope.setColorFromHsl = function() {
+		rgbValues = hslToRgb(hInput.value, sInput.value, lInput.value);
+
+			setRgbSliders(rgbValues[0], rgbValues[1], rgbValues[2]);
+
+			setColor();
+	};
+
+	$scope.setColorFromRgb = function() {
+		$scop = rgbToHsl(rInput.value, gInput.value, bInput.value);
+		setHslSliders(hslValues[0], hslValues[1], hslValues[2]);
+
+		setColor();
+	};
+
+	$scope.hsvToRgb = function(h, s, v) {
+		var m1, m2, r, g, b;
+
+		h = h / 360;
+		s = s / 100;
+		v = v / 100;
+
+		m2 = v <= 0.5 ? v * (s + 1) : v + s - v * s;
+
+		m1 = v * 2 - m2;
+
+		r = hueToRgb(m1, m2, h + 1/3);
+		g = hueToRgb(m1, m2, h);
+		b = hueToRgb(m1, m2, h - 1/3);
+
+		return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+	};
+
+	$scope.hueToRgb = function(m1,m2, h) {
+		if(h < 0){
+			h = h + 1;
+		} else if (h > 1) {
+			h = h -1;
+		}
+
+		if(h*6 < 1) {
+			return m1 + (m2 - m1) * h * 6;
+		} else if (h * 2 < 1){
+			return m2;
+		} else if (h * 3 < 2){
+			return m1 + (m2 - m1) * (2/3 - h) * 6;
+		}
+
+		return m1;
+	};
+
+	$scope.rgbToHsv = function(r, g, b) {
+		var max, min, h, s, l;
+
+		r = r / 255;
+		g = g / 255;
+		b = b / 255;
+		max = Math.max(r, g, b);
+		min = Math.min(r, g, b);
+
+		v = (min + max) / 2;
+
+		diff = max - min;
+
+		if (diff = 0) {
+			s = 0;
+			h = 0;
+		} else {
+			if (v > 0.5) {
+				s = diff / (2 - min - max);
+			} else {
+				s = diff / (max + min);
+			}
+
+			switch(max) {
+				case r:
+					h = (g - b) / diff + (g < b ? 6 : 0);
+					break;
+				case g:
+					h = (g - b) / diff + 2;
+					break;
+				case b:
+					h = (r - g) / diff + 4;
+					break;
+			}
+		}
+
+		return [Math.round(h * 60), Math.round(s * 100), Math.round(1 * 100)];
+	};
 
 	/*
 

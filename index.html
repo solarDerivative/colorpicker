@@ -50,44 +50,75 @@
 					<strong>Selected Color</strong>
 					<div id="color2" class="colorBox"></div>
 					<strong>User-Defined Color</strong>
-					<div id="color3" class="colorBox" style="background-color:rgba({{colorVals.r}}, {{colorVals.g}}, {{colorVals.b}}, 255); color:{{setTextColor(colorVals.r, colorVals.g, colorVals.b)}}">rgba({{colorVals.r}}, {{colorVals.g}}, {{colorVals.b}}, 255)
+					<div id="color3" class="colorBox" style="background-color:rgba({{rgbVals.r}}, {{rgbVals.g}}, {{rgbVals.b}}, 255); color:{{setTextColor(rgbVals.r, rgbVals.g, rgbVals.b)}}">rgba({{rgbVals.r}}, {{rgbVals.g}}, {{rgbVals.b}}, 255)
 						<div id="userVals"></div>
 						
 						<input type=checkbox ng-model=collapse></input>
 						<div style="color:black" ng-show=collapse>
-							<!--<p><strong>Red:</strong> <input ng-model="colorVals.r" ng-change="replaceColor(colorA, colorB)" maxlength="3">
-							<strong>Green:</strong> <input ng-model="colorVals.g" ng-change="replaceColor(colorA, colorB)" maxlength="3">
-							<strong>Blue:</strong> <input ng-model="colorVals.b" ng-change="replaceColor(colorA, colorB)" maxlength="3"></p> -->
+							<!--<p><strong>Red:</strong> <input ng-model="rgbVals.r" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+							<strong>Green:</strong> <input ng-model="rgbVals.g" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+							<strong>Blue:</strong> <input ng-model="rgbVals.b" ng-change="replaceColor(colorA, colorB)" maxlength="3"></p> -->
 							<div class="row colourSlider">
 								<div class="column">
 									<br>
 									R:
-									<input ng-model="colorVals.r" type="range" id="r" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+									<input ng-model="rgbVals.r" type="range" id="r" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
 
 									<br>
 									G:
-									<input ng-model="colorVals.g" type="range" id="g" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+									<input ng-model="rgbVals.g" type="range" id="g" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
 
 									<br>
 									B:
-									<input ng-model="colorVals.b" type="range" id="b" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+									<input ng-model="rgbVals.b" type="range" id="b" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
 								</div>
 
 								<div class="column">
 									<br>
 									
 									<br>
-									<input ng-model="colorVals.r" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+									<input ng-model="rgbVals.r" ng-change="replaceColor(colorA, colorB)" maxlength="3">
 
 									<br>
 									
 									<br>
-									<input ng-model="colorVals.g" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+									<input ng-model="rgbVals.g" ng-change="replaceColor(colorA, colorB)" maxlength="3">
 
 									<br>
 									
 									<br>
-									<input ng-model="colorVals.b" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+									<input ng-model="rgbVals.b" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+								</div>
+
+								<div class="column">
+									<br>
+									R:
+									<input ng-model="hsvVals.h" type="range" id="h" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+
+									<br>
+									G:
+									<input ng-model="hsvVals.s" type="range" id="s" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+
+									<br>
+									B:
+									<input ng-model="hsvVals.v" type="range" id="v" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+								</div>
+
+								<div class="column">
+									<br>
+									
+									<br>
+									<input ng-model="hsvVals.h" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+
+									<br>
+									
+									<br>
+									<input ng-model="hsvVals.s" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+
+									<br>
+									
+									<br>
+									<input ng-model="hsvVals.v" ng-change="replaceColor(colorA, colorB)" maxlength="3">
 								</div>
 								<!--
 								<div class="column">
@@ -123,7 +154,7 @@
 				<div id="colorMsg"></div>
 
 				<div class="notTable">
-					<span ng-repeat="color in allColorVals | orderBy : parseInt">
+					<span ng-repeat="color in allrgbVals | orderBy : parseInt">
 						<my-draggable>rgba {{color}}</my-draggable>
 					</span>
 				</div>
