@@ -50,7 +50,7 @@
 					<strong>Selected Color</strong>
 					<div id="color2" class="colorBox"></div>
 					<strong>User-Defined Color</strong>
-					<div id="color3" class="colorBox" style="background-color:rgba({{rgbVals.r}}, {{rgbVals.g}}, {{rgbVals.b}}, 255); color:{{setTextColor(rgbVals.r, rgbVals.g, rgbVals.b)}}">rgba({{rgbVals.r}}, {{rgbVals.g}}, {{rgbVals.b}}, 255)
+					<div id="color3" class="colorBox" style="background-color:rgba({{rgbVals.r}}, {{rgbVals.g}}, {{rgbVals.b}}, 255); color:{{setTextColor(rgbVals.r, rgbVals.g, rgbVals.b)}}">rgba({{rgbVals.r}}, {{rgbVals.g}}, {{rgbVals.b}}, 255)<br>hsl({{hslVals.h}}, {{hslVals.s}}, {{hslVals.l}})<br>hsv({{hsvVals.hh}}, {{hsvVals.ss}}, {{hsvVals.vv}})
 						<div id="userVals"></div>
 						
 						<input type=checkbox ng-model=collapse></input>
@@ -62,64 +62,65 @@
 								<div class="column">
 									<br>
 									R:
-									<input ng-model="rgbVals.r" type="range" id="r" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+									<input ng-model="rgbVals.r" type="range" id="r" min="0" max="255" ng-change="setColorFromRgb()">
 
 									<br>
 									G:
-									<input ng-model="rgbVals.g" type="range" id="g" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+									<input ng-model="rgbVals.g" type="range" id="g" min="0" max="255" ng-change="setColorFromRgb()">
 
 									<br>
 									B:
-									<input ng-model="rgbVals.b" type="range" id="b" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+									<input ng-model="rgbVals.b" type="range" id="b" min="0" max="255" ng-change="setColorFromRgb()">
 								</div>
 
 								<div class="column">
 									<br>
 									
 									<br>
-									<input ng-model="rgbVals.r" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+									<input ng-model="rgbVals.r" ng-change="setColorFromRgb()" maxlength="3">
 
 									<br>
 									
 									<br>
-									<input ng-model="rgbVals.g" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+									<input ng-model="rgbVals.g" ng-change="setColorFromRgb()" maxlength="3">
 
 									<br>
 									
 									<br>
-									<input ng-model="rgbVals.b" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+									<input ng-model="rgbVals.b" ng-change="setColorFromRgb()" maxlength="3">
 								</div>
 
 								<div class="column">
 									<br>
-									R:
-									<input ng-model="hsvVals.h" type="range" id="h" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+									H:
+									<input ng-model="hslVals.h" type="range" id="h" min="0" max="360" ng-change="setColorFromHsl()">
 
 									<br>
-									G:
-									<input ng-model="hsvVals.s" type="range" id="s" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+									S:
+									<input ng-model="hslVals.s" type="range" id="s" min="0" max="100" ng-change="setColorFromHsl()">
 
 									<br>
-									B:
-									<input ng-model="hsvVals.v" type="range" id="v" min="0" max="255" ng-change="replaceColor(colorA, colorB)">
+									L:
+									<input ng-model="hslVals.l" type="range" id="l" min="0" max="100" ng-change="setColorFromHsl()">
 								</div>
 
 								<div class="column">
 									<br>
 									
 									<br>
-									<input ng-model="hsvVals.h" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+									<input ng-model="hslVals.h" ng-change="setColorFromHsl()" maxlength="3">&nbsp;<input ng-model="hsvVals.hh" ng-disabled="true">
 
 									<br>
 									
 									<br>
-									<input ng-model="hsvVals.s" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+									<input ng-model="hslVals.s" ng-change="setColorFromHsl()" maxlength="3">&nbsp;<input ng-model="hsvVals.ss" ng-disabled="true">
 
 									<br>
 									
 									<br>
-									<input ng-model="hsvVals.v" ng-change="replaceColor(colorA, colorB)" maxlength="3">
+									<input ng-model="hslVals.l" ng-change="setColorFromHsl()" maxlength="3">&nbsp;<input ng-model="hsvVals.vv" ng-disabled="true">
 								</div>
+
 								<!--
 								<div class="column">
 									H:
