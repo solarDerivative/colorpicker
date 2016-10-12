@@ -381,12 +381,15 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 	};
 
 	$scope.rgbToHsv = function(r, g, b){
+		r = r / 255;
+		g = g / 255;
+		b = b / 255;
 		var hh = 0.0;
 		var ss = 0.0;
 		var vv = 0.0;
 
-		var mMax = Math.max(r, Math.max(g, b));
-		var mMin = Math.min(r, Math.min(g, b));
+		var mMax = Math.max(r, g, b);
+		var mMin = Math.min(r, g, b);
 
 		vv = mMax;
 
@@ -395,7 +398,7 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		if (dDiff > 0.0){
 			switch(mMax){
 				case r:
-					hh = ((g - b) / dDiff) % 6;
+					hh = ((g - b) / dDiff) + (g < b ? 6.0 : 0);
 					break;
 				case g:
 					hh = (b - r) / dDiff + 2.0;
@@ -404,12 +407,13 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 					hh = (r - g) / dDiff + 4.0;
 					break;
 			}
-		}
 		hh /= 6.0;
 		ss = dDiff / vv;
+		}
+		
 
-		return [hh, ss, vv];
-	}
+		return [Math.round(hh * 255), Math.round(ss * 255), Math.round(vv * 255)];
+	};
 
 	$scope.colorSelected = 'rgba(0,0,0,1)';
 
@@ -417,7 +421,7 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 
 	$scope.rgbVals = {r: 255, g: 0, b: 0, a: 255};
 	$scope.hslVals = {h: 0, s: 100, l: 50};
-	$scope.hsvVals = {hh: 0, ss: 1, vv: 1};
+	$scope.hsvVals = {hh: 0, ss: 255, vv: 255};
 
 	$scope.allrgbVals = [];
 

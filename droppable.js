@@ -1,4 +1,5 @@
 var domElement = document.getElementById('colorTotal');
+
 app.directive('myDroppable', function() {
 	return {
 		restrict: 'E',
@@ -6,7 +7,7 @@ app.directive('myDroppable', function() {
 		templateUrl: 'templates/droppableTemp.html',
 		link : function(scope, element, attrs) {
 			element.css({
-        		position: 'absolute',
+        		position: 'relative',
      		});
 
 			element[0].addEventListener("drop", scope.handleDrop, false);

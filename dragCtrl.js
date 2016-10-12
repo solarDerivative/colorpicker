@@ -6,6 +6,8 @@ app.controller('dragCtrl', ['$scope', function($scope) {
 	//placeholder/debug variable to hold a target class name
 	//$scope.DBclassName = "";
 
+  $scope.dropboxHeight = 100;
+
 	$scope.allowDrop = function(ev) {
 		ev.preventDefault();
 	};
@@ -16,6 +18,7 @@ app.controller('dragCtrl', ['$scope', function($scope) {
 
 	$scope.drop = function(ev) {
 		if($scope.dropZoneIsValid(ev)){
+      $scope.dropboxHeight += 50;
 			console.log(ev.target.id);
 			ev.preventDefault();
 			var data = ev.dataTransfer.getData('Text');
