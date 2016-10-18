@@ -45,12 +45,6 @@ function hsl(h, s, l) {
 	return "hsl(" + h + "," + s + "%," + l +"%)";
 }
 
-function componentToHex(c){
-	var hex1 = parseInt(c);
-	var hex2 = hex1.toString(16);
-	return hex2.length == 1 ? "0" + hex2 : hex2;
-}
-
 app.controller('canvCtrl', ['$scope', function($scope) {
 
 	/*
@@ -348,10 +342,6 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		return [Math.round(h * 60), Math.round(s * 100), Math.round(v * 100)];
 	};*/
 
-	$scope.rgbToHex = function(r, g, b) {
-		return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-	};
-
 	$scope.rgbToHsl = function(r, g, b) {
 		r = r / 255.0;
 		g = g / 255.0;
@@ -362,21 +352,20 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		var s = 0.0;
 		var l = 0.0;
 
-		var l = (min + max) / 2.0;
+		l = (min + max) / 2.0;
 
 		var diff = max - min;
 
-		if (diff > 0.0) {
+		if (diff > 0) {
 			if (l > 0.5) {
-				s = diff / (2.0 - min - max);
+				s = diff / (2.0 - max - min);
 			} else {
 				s = diff / (max + min);
 			}
 
 			switch(max) {
 				case r:
-					h = (g - b) / diff + (g < b ? 6.0 : 0);
-					//h = ((g - b) / diff) % 6.0;
+					h = (g - b) / diff;
 					break;
 				case g:
 					h = (b - r) / diff + 2.0;
@@ -387,20 +376,25 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 			}
 		}
 
-		return [Math.round(h * 60.0), Math.round(s * 100.0), Math.round(l * 100.0)];
+		h = Math.round(h * 60.0);
+		s = Math.round(s * 100.0);
+		l = Math.round(l * 100.0);
+		if(h < 0){
+			h += 360;
+		}
+
+		return [h, s, l];
 	};
 
 	$scope.rgbToHsv = function(r, g, b){
 		r = r / 255.0;
 		g = g / 255.0;
 		b = b / 255.0;
+		var mMax = Math.max(r, g, b);
+		var mMin = Math.min(r, g, b);
 		var hh = 0.0;
 		var ss = 0.0;
 		var vv = 0.0;
-
-		var mMax = Math.max(r, Math.max(g, b));
-		var mMin = Math.min(r, Math.min(g, b));
-
 		vv = mMax;
 
 		var dDiff = mMax - mMin;
@@ -409,7 +403,6 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 			switch(mMax){
 				case r:
 					hh = ((g - b) / dDiff) + (g < b ? 6.0 : 0);
-					//hh = ((g - b) / dDiff) % 6.0;
 					break;
 				case g:
 					hh = (b - r) / dDiff + 2.0;
@@ -422,9 +415,8 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		ss = dDiff / vv;
 		}
 		
-
-		//return [Math.round(hh * 360.0), Math.round(ss * 100.0), Math.round(vv * 100.0)];
-		return [hh * 360.0, ss * 100.0, vv * 100.0];
+		return [hh * 255.0, ss * 255.0, vv * 255.0];
+		//return [Math.round(hh * 255.0), Math.round(ss * 255.0), Math.round(vv * 255.0)];
 	};
 
 	$scope.colorSelected = 'rgba(0,0,0,1)';
@@ -434,7 +426,6 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 	$scope.rgbVals = {r: 255, g: 0, b: 0, a: 255};
 	$scope.hslVals = {h: 0, s: 100, l: 50};
 	$scope.hsvVals = {hh: 0, ss: 255, vv: 255};
-	$scope.hexVals = "ff0000";
 
 	$scope.allrgbVals = [];
 
@@ -612,9 +603,6 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 	};
 
 	$scope.setColorFromRgb = function() {
-
-		$scope.hexVals = $scope.rgbToHex($scope.rgbVals.r, $scope.rgbVals.g, $scope.rgbVals.b);
-
 		var temp2 = $scope.rgbToHsl($scope.rgbVals.r, $scope.rgbVals.g, $scope.rgbVals.b);
 		
 		$scope.hslVals.h = temp2[0];
@@ -627,41 +615,39 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		$scope.hsvVals.vv = hsvTemp2[2];
 
 		$scope.replaceColor(colorA, colorB);
-		
-		
 	};
 
 	$scope.hslToRgb = function(h, s, l) {
 		var m1, m2, r, g, b;
 
-		h = h / 360;
-		s = s / 100;
-		l = l / 100;
+		h = h / 360.0;
+		s = s / 100.0;
+		l = l / 100.0;
 
-		m2 = l <= 0.5 ? l * (s + 1) : l + s - l * s;
+		m2 = l <= 0.5 ? l * (s + 1.0) : l + s - l * s;
 
-		m1 = l * 2 - m2;
+		m1 = l * 2.0 - m2;
 
 		r = $scope.hueToRgb(m1, m2, h + 1/3);
 		g = $scope.hueToRgb(m1, m2, h);
 		b = $scope.hueToRgb(m1, m2, h - 1/3);
 
-		return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+		return [Math.round(r * 255.0), Math.round(g * 255.0), Math.round(b * 255.0)];
 	};
 
 	$scope.hueToRgb = function(m1,m2, h) {
 		if(h < 0){
-			h = h + 1;
-		} else if (h > 1) {
-			h = h -1;
+			h += 1.0;
+		} else if (h > 1.0) {
+			h -= 1.0;
 		}
 
-		if(h*6 < 1) {
-			return m1 + (m2 - m1) * h * 6;
-		} else if (h * 2 < 1){
+		if(h*6.0 < 1.0) {
+			return m1 + (m2 - m1) * h * 6.0;
+		} else if (h * 2.0 < 1.0){
 			return m2;
-		} else if (h * 3 < 2){
-			return m1 + (m2 - m1) * (2/3 - h) * 6;
+		} else if (h * 3.0 < 2.0){
+			return m1 + (m2 - m1) * (2/3 - h) * 6.0;
 		}
 
 		return m1;
