@@ -45,6 +45,12 @@ function hsl(h, s, l) {
 	return "hsl(" + h + "," + s + "%," + l +"%)";
 }
 
+function componentToHex(c){
+	var hex1 = parseInt(c);
+	var hex2 = hex1.toString(16);
+	return hex2.length == 1 ? "0" + hex2 : hex2;
+}
+
 app.controller('canvCtrl', ['$scope', function($scope) {
 
 	/*
@@ -342,54 +348,58 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		return [Math.round(h * 60), Math.round(s * 100), Math.round(v * 100)];
 	};*/
 
+	$scope.rgbToHex = function(r, g, b) {
+		return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+	};
+
 	$scope.rgbToHsl = function(r, g, b) {
-		r = r / 255;
-		g = g / 255;
-		b = b / 255;
+		r = r / 255.0;
+		g = g / 255.0;
+		b = b / 255.0;
 		var max = Math.max(r, g, b);
 		var min = Math.min(r, g, b);
-		var h = 0;
-		var s = 0;
-		var l = 0;
+		var h = 0.0;
+		var s = 0.0;
+		var l = 0.0;
 
-		var l = (min + max) / 2;
+		var l = (min + max) / 2.0;
 
 		var diff = max - min;
 
-		if (diff > 0) {
+		if (diff > 0.0) {
 			if (l > 0.5) {
-				s = diff / (2 - min - max);
+				s = diff / (2.0 - min - max);
 			} else {
 				s = diff / (max + min);
 			}
 
 			switch(max) {
 				case r:
-					//h = (g - b) / diff + (g < b ? 6 : 0);
-					h = ((g - b) / diff) % 6;
+					h = (g - b) / diff + (g < b ? 6.0 : 0);
+					//h = ((g - b) / diff) % 6.0;
 					break;
 				case g:
-					h = (b - r) / diff + 2;
+					h = (b - r) / diff + 2.0;
 					break;
 				case b:
-					h = (r - g) / diff + 4;
+					h = (r - g) / diff + 4.0;
 					break;
 			}
 		}
 
-		return [Math.round(h * 60), Math.round(s * 100), Math.round(l * 100)];
+		return [Math.round(h * 60.0), Math.round(s * 100.0), Math.round(l * 100.0)];
 	};
 
 	$scope.rgbToHsv = function(r, g, b){
-		r = r / 255;
-		g = g / 255;
-		b = b / 255;
+		r = r / 255.0;
+		g = g / 255.0;
+		b = b / 255.0;
 		var hh = 0.0;
 		var ss = 0.0;
 		var vv = 0.0;
 
-		var mMax = Math.max(r, g, b);
-		var mMin = Math.min(r, g, b);
+		var mMax = Math.max(r, Math.max(g, b));
+		var mMin = Math.min(r, Math.min(g, b));
 
 		vv = mMax;
 
@@ -399,6 +409,7 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 			switch(mMax){
 				case r:
 					hh = ((g - b) / dDiff) + (g < b ? 6.0 : 0);
+					//hh = ((g - b) / dDiff) % 6.0;
 					break;
 				case g:
 					hh = (b - r) / dDiff + 2.0;
@@ -412,7 +423,8 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		}
 		
 
-		return [Math.round(hh * 255), Math.round(ss * 255), Math.round(vv * 255)];
+		//return [Math.round(hh * 360.0), Math.round(ss * 100.0), Math.round(vv * 100.0)];
+		return [hh * 360.0, ss * 100.0, vv * 100.0];
 	};
 
 	$scope.colorSelected = 'rgba(0,0,0,1)';
@@ -422,6 +434,7 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 	$scope.rgbVals = {r: 255, g: 0, b: 0, a: 255};
 	$scope.hslVals = {h: 0, s: 100, l: 50};
 	$scope.hsvVals = {hh: 0, ss: 255, vv: 255};
+	$scope.hexVals = "ff0000";
 
 	$scope.allrgbVals = [];
 
@@ -599,6 +612,9 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 	};
 
 	$scope.setColorFromRgb = function() {
+
+		$scope.hexVals = $scope.rgbToHex($scope.rgbVals.r, $scope.rgbVals.g, $scope.rgbVals.b);
+
 		var temp2 = $scope.rgbToHsl($scope.rgbVals.r, $scope.rgbVals.g, $scope.rgbVals.b);
 		
 		$scope.hslVals.h = temp2[0];
@@ -611,6 +627,8 @@ app.controller('canvCtrl', ['$scope', function($scope) {
 		$scope.hsvVals.vv = hsvTemp2[2];
 
 		$scope.replaceColor(colorA, colorB);
+		
+		
 	};
 
 	$scope.hslToRgb = function(h, s, l) {

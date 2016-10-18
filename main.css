@@ -5,14 +5,15 @@
 }*/
 
 input{
-	width: 25px;
+	width: 60px;
 }
 
 .colorBox{
 	border: 1px solid #000;
 	font-family: "Consolas", monospace;
 	font-style: bold;
-	height:70px;
+	height:120px;
+	margin:10px;
 }
 
 .colorMenu{
