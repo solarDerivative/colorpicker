@@ -50,7 +50,7 @@
 					<strong>Selected Color</strong>
 					<div id="color2" class="colorBox"></div>
 					<strong>User-Defined Color</strong>
-					<div id="color3" class="colorBox" style="background-color:rgba({{rgbVals.r}}, {{rgbVals.g}}, {{rgbVals.b}}, 255); color:{{setTextColor(rgbVals.r, rgbVals.g, rgbVals.b)}}">rgba({{rgbVals.r}}, {{rgbVals.g}}, {{rgbVals.b}}, 255)<br>hsl({{hslVals.h}}, {{hslVals.s}}, {{hslVals.l}})<br>hsv({{hsvVals.hh}}, {{hsvVals.ss}}, {{hsvVals.vv}})
+					<div id="color3" class="colorBox" style="background-color:rgba({{rgbVals.r}}, {{rgbVals.g}}, {{rgbVals.b}}, 255); color:{{setTextColor(rgbVals.r, rgbVals.g, rgbVals.b)}}">rgba({{rgbVals.r}}, {{rgbVals.g}}, {{rgbVals.b}}, 255)<br>hsl({{hslVals.h}}, {{hslVals.s}}, {{hslVals.l}})<br>hsv({{hsvVals.hh}}, {{hsvVals.ss}}, {{hsvVals.vv}})<br>{{hexVals}}</div>
 						<div id="userVals"></div>
 						
 						<input type=checkbox ng-model=collapse></input>
@@ -108,17 +108,17 @@
 									<br>
 									
 									<br>
-									<input ng-model="hslVals.h" ng-disabled="true" maxlength="3">&nbsp;<input ng-model="hsvVals.hh" ng-disabled="true" maxlength="6">
+									<input ng-model="hslVals.h" ng-disabled="true" maxlength="3">&nbsp;<input ng-model="hsvVals.hh" ng-disabled="true">
 
 									<br>
 									
 									<br>
-									<input ng-model="hslVals.s" ng-disabled="true" maxlength="3">&nbsp;<input ng-model="hsvVals.ss" ng-disabled="true" maxlength="6">
+									<input ng-model="hslVals.s" ng-disabled="true" maxlength="3">&nbsp;<input ng-model="hsvVals.ss" ng-disabled="true">
 
 									<br>
 									
 									<br>
-									<input ng-model="hslVals.l" ng-disabled="true" maxlength="3">&nbsp;<input ng-model="hsvVals.vv" ng-disabled="true" maxlength="6">
+									<input ng-model="hslVals.l" ng-disabled="true" maxlength="3">&nbsp;<input ng-model="hsvVals.vv" ng-disabled="true">
 								</div>
 
 								<!--

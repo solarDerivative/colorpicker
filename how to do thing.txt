@@ -1,0 +1,20 @@
+so when the image gets drawn, the canvas will run through every pixel and add it to a group if the RGB vals match the requested values of a group
+
+store original RGB values in an array Group1
+	editable [R: 0-255, G: 0-255, B: 0-255]
+	derivative1 [R: 0-255, G: 0-255, B: 0-255]
+	derivative2 [RBG]
+	so on...
+
+create copy of Group1, converting all RGB to HSV
+	editable [H: x, S: x, V: x]
+	derivative1 [H: x, S: x, V: x]
+	derivative2 [HSV]
+	so on...
+
+use RGB slider to set a copy of editable's RGB to new values
+calculate HSV of editable copy
+
+get HSV delta of original editable and new editable
+
+apply delta to all HSVs in Group1
